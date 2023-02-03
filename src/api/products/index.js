@@ -5,6 +5,7 @@ import ProductsModel from "./model.js";
 import ReviewsModel from "../reviews/model.js";
 import ProductsCategoriesModel from "./productsCategoriesModel.js";
 import UsersModel from "../users/model.js";
+import CategoriesModel from "../categories/model.js";
 
 const productsRouter = express.Router();
 
@@ -37,6 +38,7 @@ productsRouter.get("/", async (req, res, next) => {
         {
           model: ReviewsModel,
         },
+        { model: CategoriesModel },
       ],
     }); // (SELECT) pass an array for the include list
     res.send(products);
