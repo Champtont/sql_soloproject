@@ -16,10 +16,6 @@ const ProductsModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    category: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     price: {
       type: DataTypes.FLOAT,
       allowNull: false,
@@ -40,14 +36,14 @@ const ProductsModel = sequelize.define(
 ProductsModel.hasMany(ReviewsModel, { foreignKey: { allowNull: false } });
 ReviewsModel.belongsTo(ProductsModel);
 
-// Many to many relationship
-/*ProductsModel.belongsToMany(CategoriesModel, {
+//Many to many relationship
+ProductsModel.belongsToMany(CategoriesModel, {
   through: ProductsCategoriesModel,
   foreignKey: { name: "productId", allowNull: false },
 });
 CategoriesModel.belongsToMany(ProductsModel, {
   through: ProductsCategoriesModel,
   foreignKey: { name: "categoryId", allowNull: false },
-});*/
+});
 
 export default ProductsModel;

@@ -3,6 +3,7 @@ import createHttpError from "http-errors";
 import { Op } from "sequelize";
 import ProductsModel from "./model.js";
 import ReviewsModel from "../reviews/model.js";
+import ProductsCategoriesModel from "./productsCategoriesModel.js";
 import UsersModel from "../users/model.js";
 
 const productsRouter = express.Router();
@@ -31,7 +32,7 @@ productsRouter.get("/", async (req, res, next) => {
     if (category) query.category = { [Op.like]: `${category}` };
     const products = await ProductsModel.findAll({
       where: { ...query },
-      attributes: ["id", "name", "description", "price", "category"],
+      attributes: ["id", "name", "description", "price"],
       include: [
         {
           model: ReviewsModel,
@@ -118,6 +119,18 @@ productsRouter.get("/:productId/reviews", async (req, res, next) => {
       },
     });
     res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+productsRouter.put("/:productId/addCategory", async (req, res, next) => {
+  try {
+    const { id } = await ProductsCategoriesModel.create({
+      productId: req.params.productId,
+      categoryId: req.body.categoryId,
+    });
+    res.status(201).send({ id });
   } catch (error) {
     next(error);
   }
